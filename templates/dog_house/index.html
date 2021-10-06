@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main_container %}
+    <div class="card border-0 shadow">
+        <div class="card-body">
+            {% if messages %}
+                {% for message in messages %}
+                    <div id="sub_error" class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+            <h2 class="title mb-2">Get started</h2>
+            <form method="post" action="{% url 'boarding-calender' %}">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 form-group text-start">
+                        <label for="start_date" class="col-form-label">Start Date</label>
+                        <input name="start_date" type="date" class="form-control" id="start_date" required>
+                    </div>
+                    <div class="col-sm-12 col-md-6 form-group text-start">
+                        <label for="end_date" class="col-form-label">End Date</label>
+                        <input name="end_date" type="date" class="form-control datepicker" id="end_date" required>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="mt-4">
+                            <button class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

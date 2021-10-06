@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DOG Boardings</title>
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'assets/css/framework.css' %}" media="all" hreflang="en" type="text/css" rel="stylesheet">
+    <link href="{% static 'assets/css/style.css' %}" media="all" hreflang="en" type="text/css" rel="stylesheet">
+
+
+    <!-- Javascript -->
+    <script type="text/javascript" src="{% static 'assets/js/app.js' %}"></script>
+    <script type="text/javascript" src="{% static '/assets/js/config.js' %}"></script>
+
+</head>
+<body id="body">
+
+
+<main class="main" role="main" id="main">
+    <section class="app">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 offset-md-3">
+                    <a class="brand my-5" href="/">
+                        <img class="img-fluid" src="{% static '/assets/img/logo.png' %}" alt="HappyDogs">
+                    </a>
+                    {% block main_container %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+</body>
+</html>
