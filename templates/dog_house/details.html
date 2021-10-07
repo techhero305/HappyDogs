@@ -15,25 +15,30 @@
     <div id="data" style="display: none">
         {{ data }}
     </div>
+    <div id="calendar_data" style="display: none">
+        {{ calender_data }}
+    </div>
     <div id="start_date" style="display: none">
         {{ start_date }}
     </div>
     <div id="end_date" style="display: none">
         {{ end_date }}
     </div>
+
+
 {% endblock %}
 
 {% block list_container %}
     <div class="modal fade" id="eventsModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="label"></h5>
+                    <h5 class="modal-title" id="titleLabel"></h5>
                 </div>
                 <div class="modal-body">
                     <div class="display-data">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered m-0">
                             <thead>
                             <tr>
                                 <th scope="col">Full Name</th>
@@ -41,15 +46,7 @@
                                 <th scope="col">End Date</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            {% for data in calender_data %}
-                                <tr>
-                                    <th scope="row">{{ data.first_name }} {{ data.last_name }}</th>
-                                    <td>{{ data.start_date }}</td>
-                                    <td>{{ data.end_date }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -68,9 +65,14 @@
             console.log(data.innerText);
             let start_date = document.getElementById('start_date');
             let end_date = document.getElementById('end_date');
-
+            let calendar_data = document.getElementById('calendar_data');
             let eventModal = $('#eventsModal');
             let calendarEl = document.getElementById('calendar');
+
+            eventModal.modal('hide');
+
+            console.log(start_date.innerHTML.trim())
+
             let calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 headerToolbar: {
@@ -81,11 +83,17 @@
                 timeZone: 'local',
                 eventDisplay: 'list-item',
                 events: JSON.parse(data.innerText),
+                initialDate: start_date.innerHTML.trim(),
                 eventClick: function (info) {
-                    console.log(info)
-                    // alert('Event: ' + info.event.title);
                     eventModal.modal('show');
-
+                    let cDate = new Date(info.event.start);
+		                let getFormat = new Date(cDate.setDate(cDate.getDate() + 1)).toISOString().slice(0,10);
+                        let data = JSON.parse(calendar_data.innerText);
+                        data.filter((item) => item.start_date === getFormat).map((key, index) => {
+                            let result = `<tr><td>${key.first_name} ${key.last_name}</td><td>${key.start_date}</td><td>${key.end_date}</td></tr>`;
+                            $('#eventsModal tbody').append(result);
+                        });
+                    $('#titleLabel').append('Date: '+ getFormat)
                 },
                 eventSources: [
                     {
@@ -95,14 +103,11 @@
             });
             calendar.render();
 
-            eventModal.on('show.bs.modal', function (e) {
-                console.log(e)
-                console.log(e.currentTarget)
-                console.log('showing')
-            })
-            eventModal.on('hidden.bs.modal', function (e) {
-                console.log(e.currentTarget)
+
+            eventModal.on('hide.bs.modal', function (e) {
                 console.log('hiding')
+                $('#titleLabel').empty();
+                $('.display-data tbody').empty();
             })
         });
 

@@ -30,12 +30,16 @@ class DogBoardingVisit(TemplateView):
                                                                                                        'start_date',
                                                                                                        'end_date').order_by(
                 'start_date', 'end_date', 'first_name')
+            for d in data:
+                d['start_date'] = str(d['start_date'])
+                d['end_date'] = str(d['end_date'])
             signs = Counter(k['start_date'] for k in data if k.get('start_date'))
             calendar_data = [{'title': f'{count} dogs' if count > 1 else f'{count} dog', 'start': str(sign)} for
                              sign, count in signs.most_common()]
 
-            return render(request, 'dog_house/details.html', {'data': json.dumps(calendar_data), 'calender_data': data,
-                                                              'start_date': request.POST.get('start_date'),
-                                                              'end_date': request.POST.get('end_date')})
+            return render(request, 'dog_house/details.html',
+                          {'data': json.dumps(calendar_data), 'calender_data': json.dumps(list(data)),
+                           'start_date': request.POST.get('start_date'),
+                           'end_date': request.POST.get('end_date')})
         messages.warning(request, FORM_FIELD_ERRORS)
         return render(request, 'dog_house/index.html', {'form': form})
