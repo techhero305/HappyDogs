@@ -13,11 +13,6 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bolder;
 }
 
-.navbar {
-  padding: 20px;
-  height: 103px;
-}
-
 .brand {
   display: block;
   width: 250px;
@@ -58,8 +53,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .app {
-  padding: 30px;
-  min-height: calc(100vh - 103px);
+  background: url("../img/3.png") no-repeat center center;
+  background-size: cover;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,4 +63,24 @@ h1, h2, h3, h4, h5, h6 {
 
 .app-details .calendar-wrapper {
   width: 100%;
+}
+
+@media (max-width: 767.98px) {
+  .fc .fc-toolbar {
+    display: block;
+  }
+  .fc .fc-toolbar .fc-toolbar-chunk {
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.btn-random {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
 }

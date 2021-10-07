@@ -1,38 +1,75 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block main_container %}
-    <div class="card border-0 shadow">
-        <div class="card-body">
-            {% if messages %}
-                {% for message in messages %}
-                    <div id="sub_error" class="alert alert-{{ message.tags }}">
-                        {{ message }}
+
+    <div class="col-sm-12 col-md-12">
+        <a class="brand my-5" href="/">
+            <img class="img-fluid" src="{% static '/assets/img/logo.png' %}" alt="HappyDogs">
+        </a>
+
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <div class="card border-0 shadow">
+            <div class="card-body">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div id="sub_error" class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
                     </div>
                 {% endfor %}
-            {% endif %}
-            {% for error in form.non_field_errors %}
-                <div class="alert alert-danger">
-                    <strong>{{ error|escape }}</strong>
-                </div>
-            {% endfor %}
-            <h2 class="title mb-2">Get started</h2>
-            <form method="post" action="{% url 'boarding-visit' %}">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 form-group text-start">
-                        <label for="start_date" class="col-form-label">Start Date</label>
-                        <input name="start_date" type="date" class="form-control" id="start_date" required>
-                    </div>
-                    <div class="col-sm-12 col-md-6 form-group text-start">
-                        <label for="end_date" class="col-form-label">End Date</label>
-                        <input name="end_date" type="date" class="form-control datepicker" id="end_date" required>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="mt-4">
-                            <button class="btn btn-success">Submit</button>
+                <h2 class="title mb-2">Get started</h2>
+                <form method="post" action="{% url 'boarding-visit' %}">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group text-start">
+                                <label for="start_date" class="col-form-label">Start Date</label>
+                                <input name="start_date" type="date" class="form-control" id="start_date" required>
+                            </div>
+                            <div class="orm-group text-start">
+                                <label for="end_date" class="col-form-label">End Date</label>
+                                <input name="end_date" type="date" class="form-control datepicker" id="end_date"
+                                       required>
+                            </div>
+                            <div class="mt-4">
+                                <button class="btn btn-success">Submit</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
+    <div class="col-md-8">
+    <img class="img-fluid w-50 d-none d-md-block" src="{% static '/assets/img/1.jpg' %}" alt="HappyDogs">
+    </div>
+    <button id="randomize" type="button" class="btn btn-dark btn-random w-auto">Random</button>
+
+
+
+    <script>
+        $(()=> {
+            $('#randomize').on('click', (e)=> {
+                e.preventDefault();
+                console.log('ajax');
+                $.ajax({
+                    url: '/fake_data_ajax/',
+                    method: 'post',
+                    success: function (success) {
+                        console.log(success)
+                    },
+                    error: function (error) {
+                        console.warn(error)
+                    }
+                })
+            })
+        })
+    </script>
+
+
 {% endblock %}

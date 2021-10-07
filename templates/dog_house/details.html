@@ -3,10 +3,39 @@
 
 {% block main_container %}
     <div class="col-sm-12">
-        <div class="card border-0 shadow">
-            <div class="card-body">
-                <div class="calendar-wrapper">
-                    <div id="calendar"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                <a class="brand my-5" href="/">
+                    <img class="img-fluid" src="{% static '/assets/img/logo.png' %}" alt="HappyDogs">
+                </a>
+            </div>
+            <div class="col-sm-12 col-md-8 mb-4">
+                <div class="card border-0 shadow h-100">
+                    <div class="card-body">
+                        <div class="calendar-wrapper">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4 mb-4">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 form-group text-start">
+                                <label for="start_date" class="col-form-label pt-0">Start Date</label>
+                                <input name="start_date" type="date" class="form-control" id="start_date_one" required>
+                            </div>
+                            <div class="col-sm-12 form-group text-start">
+                                <label for="end_date" class="col-form-label">End Date</label>
+                                <input name="end_date" type="date" class="form-control datepicker" id="end_date_one"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="img-wrapper text-center mt-4">
+                            <img class="img-fluid" src="{% static '/assets/img/2.png' %}" alt="HappyDogs">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -50,7 +79,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer border-0 pt-0">
                     <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
                         Close
                     </button>
@@ -87,13 +116,13 @@
                 eventClick: function (info) {
                     eventModal.modal('show');
                     let cDate = new Date(info.event.start);
-		                let getFormat = new Date(cDate.setDate(cDate.getDate() + 1)).toISOString().slice(0,10);
-                        let data = JSON.parse(calendar_data.innerText);
-                        data.filter((item) => item.start_date === getFormat).map((key, index) => {
-                            let result = `<tr><td>${key.first_name} ${key.last_name}</td><td>${key.start_date}</td><td>${key.end_date}</td></tr>`;
-                            $('#eventsModal tbody').append(result);
-                        });
-                    $('#titleLabel').append('Date: '+ getFormat)
+                    let getFormat = new Date(cDate.setDate(cDate.getDate() + 1)).toISOString().slice(0, 10);
+                    let data = JSON.parse(calendar_data.innerText);
+                    data.filter((item) => item.start_date === getFormat).map((key, index) => {
+                        let result = `<tr><td>${key.first_name} ${key.last_name}</td><td>${key.start_date}</td><td>${key.end_date}</td></tr>`;
+                        $('#eventsModal tbody').append(result);
+                    });
+                    $('#titleLabel').append('Date: ' + getFormat)
                 },
                 eventSources: [
                     {
