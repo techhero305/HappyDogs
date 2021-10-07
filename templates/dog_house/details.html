@@ -6,9 +6,107 @@
         <div class="card border-0 shadow">
             <div class="card-body">
                 <div class="calendar-wrapper">
-                    <div id="calendar-info"></div>
+                    <div id="calendar"></div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="data" style="display: none">
+        {{ data }}
+    </div>
+    <div id="start_date" style="display: none">
+        {{ start_date }}
+    </div>
+    <div id="end_date" style="display: none">
+        {{ end_date }}
+    </div>
+{% endblock %}
+
+{% block list_container %}
+    <div class="modal fade" id="eventsModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="label"></h5>
+                </div>
+                <div class="modal-body">
+                    <div class="display-data">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for data in calender_data %}
+                                <tr>
+                                    <th scope="row">{{ data.first_name }} {{ data.last_name }}</th>
+                                    <td>{{ data.start_date }}</td>
+                                    <td>{{ data.end_date }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let data = document.getElementById('data');
+            console.log(data.innerText);
+            let start_date = document.getElementById('start_date');
+            let end_date = document.getElementById('end_date');
+
+            let eventModal = $('#eventsModal');
+            let calendarEl = document.getElementById('calendar');
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,listWeek'
+                },
+                timeZone: 'local',
+                eventDisplay: 'list-item',
+                events: JSON.parse(data.innerText),
+                eventClick: function (info) {
+                    console.log(info)
+                    // alert('Event: ' + info.event.title);
+                    eventModal.modal('show');
+
+                },
+                eventSources: [
+                    {
+                        // Ajax Call here
+                    }
+                ]
+            });
+            calendar.render();
+
+            eventModal.on('show.bs.modal', function (e) {
+                console.log(e)
+                console.log(e.currentTarget)
+                console.log('showing')
+            })
+            eventModal.on('hidden.bs.modal', function (e) {
+                console.log(e.currentTarget)
+                console.log('hiding')
+            })
+        });
+
+    </script>
+
+
 {% endblock %}
